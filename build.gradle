@@ -1,0 +1,51 @@
+import javax.tools.JavaCompiler
+
+plugins {
+    id 'java'
+    id 'war'
+    id 'idea'
+    id 'maven'
+    
+}
+apply from: 'gretty.plugin'
+
+group 'com.test'
+version '1.0'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    jcenter()
+}
+
+
+dependencies {
+    compile group: 'org.springframework', name: 'spring-context', version: '5.1.5.RELEASE'
+    compile group: 'joda-time', name: 'joda-time', version: '2.9.9'
+    
+    testCompile group: 'tunit', name: 'junit', version: '4.12'
+    
+    providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
+   
+}
+
+
+
+// 配置gretty
+gretty {
+    port = 8888
+    contextPath =""
+    servletContainer = 'tomcat8'
+    debugPort = 6005      // default
+    debugSuspend = true   // default
+    httpsEnabled = true
+    httpsPort = 4430
+}
+
+
+tasks.withType(JavaCompile){
+    options.encoding = "UTF-8"
+}
+
+[compileJava,javadoc,compileTestJava]*.options*.encoding = "UTF-8"
